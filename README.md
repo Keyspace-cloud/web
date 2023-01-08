@@ -1,4 +1,4 @@
-# Keyspace web wallet
+# Keyspace Web
 The browser plugin for [Keyspace](https://keyspace.cloud) - A secure self-custodial cryptographic wallet for your digital life. 
 
 <img src="assets/keyroute.PNG" alt="Logins" height="400px"/>
@@ -10,10 +10,8 @@ The browser plugin for [Keyspace](https://keyspace.cloud) - A secure self-custod
 ### Notes
 <img src="assets/ss2.PNG" alt="Logins" height="400px"/>
 
-
 ### Cards
 <img src="assets/ss3.PNG" alt="Logins" height="400px"/>
-
 
 ## Cryptography
 
