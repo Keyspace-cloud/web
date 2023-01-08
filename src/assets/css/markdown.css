@@ -1,0 +1,14 @@
+.markdown {
+    all: revert;
+}
+
+.markdown * {
+    all: revert;
+}
+
+.markdown pre {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    padding: 4px;
+    white-space: break-spaces;
+}

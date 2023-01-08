@@ -1,0 +1,47 @@
+{
+  "name" :"Keyspace",
+  "description": "Keyspace wallet browser add-on",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "icons": {
+      "16": "./images/favicon-16x16.png",
+      "32": "./images/favicon-32x32.png",
+      "192": "./images/favicon-192x192.png",
+      "512": "./images/favicon-512x512.png"
+  },
+  "browser_action": {
+      "default_popup": "index.html",
+      "default_icon": {
+          "16": "./images/favicon-16x16.png",
+          "32": "./images/favicon-32x32.png",
+          "192": "./images/favicon-192x192.png",
+          "512": "./images/favicon-512x512.png"
+      }
+  },
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },  
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "contextMenus",
+    "storage",
+    "unlimitedStorage",
+    "clipboardRead",
+    "clipboardWrite",
+    "idle",
+    "http://*/*",
+    "https://*/*",
+    "webRequest",
+    "webRequestBlocking"
+  ],
+  "commands": {
+      "_execute_browser_action": {
+        "suggested_key": {
+            "default": "Ctrl+Period"
+        },
+        "description": "keyboard call"
+      }
+  }
+}

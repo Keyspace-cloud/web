@@ -1,0 +1,81 @@
+// import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+
+// export const itemsApi = createApi({
+//     reducerPath: 'itemsApi',
+//     baseQuery: fetchBaseQuery({ baseUrl: `https://${process.env.REACT_APP_API_HOST}` }),
+//     endpoints: (builder) => ({
+//       fetchItems: builder.query<string, string>({
+//         query: (vaultId) => `vaults/items?vault_id=${vaultId}`,
+//       }),
+//     }),
+//   })
+
+// export const { useFetchItemsQuery } = itemsApi
+import { retry } from '@reduxjs/toolkit/query/react'
+import { api } from './api'
+
+interface EncryptedVaultItem {
+  id: string,
+  vault: number,
+  data: {
+    data: string,
+    type: number
+  }
+}
+
+type ItemsResponse = Array<EncryptedVaultItem>
+
+const vaultId = 1
+
+export const itemsApi = api.injectEndpoints({
+  endpoints: (build) => ({
+
+    getItems: build.query<ItemsResponse, void>({
+      query: () => ({ url: `vaults/items?vault_id=${vaultId}` }),
+      providesTags: (result = []) => [
+        ...result.map(({ id }) => ({ type: 'Posts', id } as const)),
+        { type: 'Posts' as const, id: 'LIST' },
+      ],
+    }),
+    addPost: build.mutation<EncryptedVaultItem, Partial<EncryptedVaultItem>>({
+      query: (body) => ({
+        url: `vaults/items?vault_id=${vaultId}`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: [{ type: 'Posts', id: 'LIST' }],
+    }),
+
+    updatePost: build.mutation<EncryptedVaultItem, Partial<EncryptedVaultItem>>({
+      query(data) {
+        const { id, ...body } = data
+        return {
+          url: `vaults/items?vault_id=${vaultId}?item_id=${id}`,
+          method: 'PUT',
+          body,
+        }
+      },
+      invalidatesTags: (post) => [{ type: 'Posts', id: post?.id }],
+    }),
+    deletePost: build.mutation<{ success: boolean; id: number }, number>({
+      query(id) {
+        return {
+          url: `vaults/items?vault_id=${vaultId}?item_id=${id}`,
+          method: 'DELETE',
+        }
+      },
+      invalidatesTags: (post) => [{ type: 'Posts', id: post?.id }],
+    }),
+    getErrorProne: build.query<{ success: boolean }, void>({
+      query: () => 'error-prone',
+    }),
+  }),
+})
+
+export const {
+  useAddPostMutation,
+  useDeletePostMutation,
+  useUpdatePostMutation,
+  useGetErrorProneQuery,
+} = itemsApi
+
