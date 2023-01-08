@@ -3,23 +3,23 @@ A secure self-custodial cryptographic wallet for your digital life.
 
 ## For developers:
 
-### Dev mode
-`npm start`
+### Install dependancies
 
-Runs the app in the development mode.<br /> Open
-[http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br /> You will also see any lint errors
-in the console.
+`yarn`
 
 ### To build
-`yarn build`
+Build for manifest version 2 with `yarn build`
 
+Build for manifest version 3 with `yarn v3build`
+
+### Rebuild icon manifest
+
+If adding a new icon SVG, rebuild the icon manifest with `yarn build-icon`
 
 ## Plugin setup
 ### For chrome
 
-1. Create a build folder with `npm run build` or `yarn build`
+1. Create a build folder with `yarn v3build`
 
 2. Open `chrome://extensions` with "Developer mode" on
 
@@ -28,7 +28,7 @@ in the console.
 
 ### For firefox
 
-1. Create a build folder with `npm run build` or `yarn build`
+1. Create a build folder with `yarn build`
 
 2. Open `about:debugging` and select `This Firefox`
 
