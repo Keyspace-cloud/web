@@ -29,17 +29,17 @@ The browser plugin for [Keyspace](https://keyspace.cloud) - A secure self-custod
 
 `yarn`
 
-### To build
+### Build
 Build for manifest version 2 with `yarn build`
 
 Build for manifest version 3 with `yarn v3build`
 
 ### Rebuild icon manifest
 
-If adding a new icon SVG, rebuild the icon manifest with `yarn build-icon`
+If adding a new icon SVG, rebuild the icon manifest with `yarn build-icons`
 
-## Plugin setup
-### For chrome
+### Plugin setup
+#### For Chrome and Chromium browsers
 
 1. Create a build folder with `yarn v3build`
 
@@ -48,7 +48,7 @@ If adding a new icon SVG, rebuild the icon manifest with `yarn build-icon`
 3. Select "Load unpacked" and select the `build` folder
 
 
-### For firefox
+#### For Firefox
 
 1. Create a build folder with `yarn build`
 
