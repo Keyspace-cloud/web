@@ -1,0 +1,77 @@
+{
+  "name": "keyspace-plugin",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@chakra-ui/icons": "^2.0.0",
+    "@chakra-ui/react": "^2.4.4",
+    "@emotion/react": "^11.8.2",
+    "@emotion/styled": "^11.8.1",
+    "@reduxjs/toolkit": "^1.8.2",
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^10.4.9",
+    "@testing-library/user-event": "^12.8.3",
+    "@types/chrome": "^0.0.193",
+    "@types/firefox-webext-browser": "^94.0.1",
+    "@types/jest": "^25.2.3",
+    "@types/libsodium-wrappers": "^0.7.9",
+    "@types/node": "17.0.29",
+    "@types/react": "^18.0.26",
+    "@types/react-dom": "^18.0.10",
+    "@types/uuid": "^8.3.4",
+    "@types/zxcvbn": "^4.4.1",
+    "bip39": "^3.0.4",
+    "buffer": "^6.0.3",
+    "framer-motion": "^4.1.17",
+    "js-base64": "^3.7.3",
+    "libsodium-wrappers": "^0.7.9",
+    "path": "^0.12.7",
+    "psl": "^1.9.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.7.1",
+    "react-markdown": "^8.0.3",
+    "react-qrcode-logo": "^2.6.0",
+    "react-redux": "^8.0.2",
+    "react-scripts": "5.0.0",
+    "react-use-websocket": "^3.0.0",
+    "sass": "^1.54.8",
+    "stream-browserify": "^3.0.0",
+    "totp-generator": "^0.0.13",
+    "typescript": "^4.6.2",
+    "uuid": "^8.3.2",
+    "web-vitals": "^0.2.4",
+    "zxcvbn": "^4.4.2"
+  },
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "build-icons": "node build-icons.js",
+    "test": "react-app-rewired test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "react-app-rewired": "^2.2.1"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 4,
+    "semi": false,
+    "singleQuote": true
+  }
+}
