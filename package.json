@@ -46,6 +46,7 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
+    "v3build": "cross-env MANIFEST_VERSION=3 react-app-rewired build",
     "build-icons": "node build-icons.js",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"
@@ -66,6 +67,8 @@
     ]
   },
   "devDependencies": {
+    "copy-webpack-plugin": "^11.0.0",
+    "cross-env": "^7.0.3",
     "react-app-rewired": "^2.2.1"
   },
   "prettier": {
