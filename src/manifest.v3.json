@@ -1,7 +1,7 @@
 {
     "name" :"Keyspace",
     "description": "Keyspace wallet browser add-on",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "manifest_version": 3,
     "icons": {
         "16": "./images/favicon-16x16.png",
