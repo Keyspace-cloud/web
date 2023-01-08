@@ -1,5 +1,24 @@
 # Keyspace web wallet
-A secure self-custodial cryptographic wallet for your digital life. 
+The browser plugin for [Keyspace](https://keyspace.cloud) - A secure self-custodial cryptographic wallet for your digital life. 
+
+### Logins
+
+
+### Notes
+
+
+
+### Cards
+
+
+
+## Cryptography
+
+- [XChaCha20-Poly1305](https://doc.libsodium.org/secret-key_cryptography/aead/chacha20-poly1305/xchacha20-poly1305_construction)
+- [Ed25519](https://doc.libsodium.org/secret-key_cryptography/aead/chacha20-poly1305/xchacha20-poly1305_construction)
+- [X25519](https://doc.libsodium.org/key_exchange#usage)
+- [PBKDF2](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki#from-mnemonic-to-seed)
+- [BLAKE2B](https://doc.libsodium.org/key_derivation#deriving-keys-from-a-single-high-entropy-key)
 
 ## For developers:
 
@@ -33,14 +52,6 @@ If adding a new icon SVG, rebuild the icon manifest with `yarn build-icon`
 2. Open `about:debugging` and select `This Firefox`
 
 3. Select "Load temporary addon" and import the manifest.json file from the build folder.
-
-## Cryptography
-
-- [XChaCha20-Poly1305](https://doc.libsodium.org/secret-key_cryptography/aead/chacha20-poly1305/xchacha20-poly1305_construction)
-- [Ed25519](https://doc.libsodium.org/secret-key_cryptography/aead/chacha20-poly1305/xchacha20-poly1305_construction)
-- [X25519](https://doc.libsodium.org/key_exchange#usage)
-- [PBKDF2](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki#from-mnemonic-to-seed)
-- [BLAKE2B](https://doc.libsodium.org/key_derivation#deriving-keys-from-a-single-high-entropy-key)
 
 ## Credits
 
