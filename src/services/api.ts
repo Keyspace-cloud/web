@@ -62,7 +62,7 @@ export const api = createApi({
             query: () => 'vaults/items?combined=true',
             transformResponse: async (
                 response: VaultItemsResponse,
-                meta: {},
+                meta: undefined,
                 arg: Uint8Array
             ) => {
                 const decryptionKey = arg
