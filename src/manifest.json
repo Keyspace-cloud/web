@@ -25,16 +25,12 @@
   "permissions": [
     "tabs",
     "activeTab",
-    "contextMenus",
     "storage",
     "unlimitedStorage",
     "clipboardRead",
     "clipboardWrite",
-    "idle",
     "http://*/*",
-    "https://*/*",
-    "webRequest",
-    "webRequestBlocking"
+    "https://*/*"
   ],
   "commands": {
       "_execute_browser_action": {
