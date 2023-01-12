@@ -30,6 +30,7 @@ import { addSession } from '../../store/reducers/auth'
 import { FiAlertTriangle, FiRefreshCcw } from 'react-icons/fi'
 import { PopoutButton } from '../Common/PopoutButton'
 import { Logo } from '../../Logo'
+import { manifestVersion } from '../../utils/browser'
 
 export const Keyroute = () => {
     const QR_REFRESH_INTERVAL = 60 //seconds
@@ -83,32 +84,62 @@ export const Keyroute = () => {
      * Sends a 'getSession' message to the background script, and restores the user session if possible
      */
     useEffect(() => {
-        try {
-            chrome.runtime.sendMessage(
-                { cmd: 'getSession' },
-                function (response) {
-                    if (response.result === 'success') {
-                        const decodedSessionData = {
-                            email: response.message.email,
-                            token: response.message.token,
-                            keyring: {
-                                publicKey: hex2buf(
-                                    response.message.keyring.publicKey
-                                ),
-                                privateKey: hex2buf(
-                                    response.message.keyring.privateKey
-                                ),
-                                symmetricKey: hex2buf(
-                                    response.message.keyring.symmetricKey
-                                ),
-                            },
+        const getSessionFromBackgroundScript = () => {
+            try {
+                chrome.runtime.sendMessage(
+                    { cmd: 'getSession' },
+                    function (response) {
+                        if (response.result === 'success') {
+                            const decodedSessionData = {
+                                email: response.message.email,
+                                token: response.message.token,
+                                keyring: {
+                                    publicKey: hex2buf(
+                                        response.message.keyring.publicKey
+                                    ),
+                                    privateKey: hex2buf(
+                                        response.message.keyring.privateKey
+                                    ),
+                                    symmetricKey: hex2buf(
+                                        response.message.keyring.symmetricKey
+                                    ),
+                                },
+                            }
+                            dispatch(addSession(decodedSessionData))
                         }
-                        dispatch(addSession(decodedSessionData))
                     }
+                )
+            } catch (error) {
+                console.log('Error syncing with background script:', error)
+            }
+        }
+
+        const getSessionFromStorage = async () => {
+            try {
+                const storedData = await chrome.storage.session.get('session')
+                if (storedData !== undefined && storedData !== null) {
+                    const { session } = storedData
+                    const decodedSessionData = {
+                        email: session.email,
+                        token: session.token,
+                        keyring: {
+                            publicKey: hex2buf(session.keyring.publicKey),
+                            privateKey: hex2buf(session.keyring.privateKey),
+                            symmetricKey: hex2buf(
+                                session.keyring.symmetricKey
+                            ),
+                        },
+                    }
+                    dispatch(addSession(decodedSessionData))
                 }
-            )
-        } catch (error) {
-            console.log('Error syncing with background script:', error)
+            } catch (error) {
+                console.log('Error getting stored session', error)
+            }
+        }
+        if (manifestVersion() === 2) {
+            getSessionFromBackgroundScript()
+        } else {
+            getSessionFromStorage()
         }
     }, [dispatch])
 
@@ -153,7 +184,7 @@ export const Keyroute = () => {
     useEffect(() => {
         const initSession = async (payload: KeyroutePayload) => {
             if (keypair) {
-                keyreouteLogin(payload, keypair).then((session) => {
+                keyreouteLogin(payload, keypair).then(async (session) => {
                     if (session.email !== undefined) {
                         toast({
                             title: 'Logged in!',
@@ -182,25 +213,39 @@ export const Keyroute = () => {
                                 ),
                             },
                         }
-                        try {
-                            chrome.runtime.sendMessage(
-                                {
-                                    message: encodedSessionData,
-                                    cmd: 'saveSession',
-                                },
-                                function (response) {
-                                    console.log(
-                                        `message from background: ${JSON.stringify(
-                                            response
-                                        )}`
-                                    )
-                                }
-                            )
-                        } catch (error) {
-                            console.log(
-                                'Error syncing with background script:',
-                                error
-                            )
+                        if (manifestVersion() === 2) {
+                            try {
+                                chrome.runtime.sendMessage(
+                                    {
+                                        message: encodedSessionData,
+                                        cmd: 'saveSession',
+                                    },
+                                    function (response) {
+                                        console.log(
+                                            `message from background: ${JSON.stringify(
+                                                response
+                                            )}`
+                                        )
+                                    }
+                                )
+                            } catch (error) {
+                                console.log(
+                                    'Error syncing with background script:',
+                                    error
+                                )
+                            }
+                        } else {
+                            try {
+                                await chrome.storage.session.set({
+                                    session: encodedSessionData,
+                                })
+                                console.log('saved session to storage')
+                            } catch (error) {
+                                console.log(
+                                    'Error saving session to storage',
+                                    error
+                                )
+                            }
                         }
 
                         dispatch(addSession(session))

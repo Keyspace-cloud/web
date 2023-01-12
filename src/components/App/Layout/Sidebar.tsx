@@ -19,6 +19,7 @@ import { useAppSelector, useAppDispatch } from '../../../store/hooks'
 import { removeSession } from '../../../store/reducers/auth'
 import { View } from '../../../types'
 import { Logo } from '../../../Logo'
+import { manifestVersion } from '../../../utils/browser'
 
 interface SidebarProps {
     toggleSidebar?: Function
@@ -30,18 +31,28 @@ export const Sidebar = (props: SidebarProps) => {
     const dispatch = useAppDispatch()
 
     const endSession = () => {
-        try {
-            chrome.runtime.sendMessage(
-                { cmd: 'removeSession' },
-                function (response) {
-                    console.log(
-                        `message from background: ${JSON.stringify(response)}`
-                    )
-                }
-            )
-        } catch (error) {
-            console.log('Error syncing with background script:', error)
+        if (manifestVersion() === 2) {
+            try {
+                chrome.runtime.sendMessage(
+                    { cmd: 'removeSession' },
+                    function (response) {
+                        console.log(
+                            `message from background: ${JSON.stringify(response)}`
+                        )
+                    }
+                )
+            } catch (error) {
+                console.log('Error syncing with background script:', error)
+            }
         }
+        else {
+            try {
+                chrome.storage.session.clear()
+            } catch(error) {
+                console.log('Error clearing session storage', error)
+            }
+        }
+        
         dispatch(removeSession())
     }
 
