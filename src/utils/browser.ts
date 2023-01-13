@@ -23,8 +23,12 @@ export const tabsQuery = (
 /**
  * Returns the manifest version
  * 
- * @returns {2 | 3}
+ * @returns {2 | 3 | null}
  */
 export const manifestVersion = () => {
-    return chrome.runtime.getManifest().manifest_version;
+    try {
+        return chrome.runtime.getManifest().manifest_version;
+    } catch(e) {
+        return null
+    }
 }
