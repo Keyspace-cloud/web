@@ -46,7 +46,8 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
-    "v3build": "cross-env MANIFEST_VERSION=3 react-app-rewired build",
+    "build:mv2": "cross-env MANIFEST_VERSION=2 react-app-rewired build",
+    "build:mv3": "cross-env MANIFEST_VERSION=3 react-app-rewired build",
     "build-icons": "node build-icons.js",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"
