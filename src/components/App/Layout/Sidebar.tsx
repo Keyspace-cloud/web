@@ -45,7 +45,7 @@ export const Sidebar = (props: SidebarProps) => {
                 console.log('Error syncing with background script:', error)
             }
         }
-        else {
+        else if(manifestVersion() === 3) {
             try {
                 chrome.storage.session.clear()
             } catch(error) {

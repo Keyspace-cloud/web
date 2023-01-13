@@ -125,9 +125,7 @@ export const Keyroute = () => {
                         keyring: {
                             publicKey: hex2buf(session.keyring.publicKey),
                             privateKey: hex2buf(session.keyring.privateKey),
-                            symmetricKey: hex2buf(
-                                session.keyring.symmetricKey
-                            ),
+                            symmetricKey: hex2buf(session.keyring.symmetricKey),
                         },
                     }
                     dispatch(addSession(decodedSessionData))
@@ -138,7 +136,7 @@ export const Keyroute = () => {
         }
         if (manifestVersion() === 2) {
             getSessionFromBackgroundScript()
-        } else {
+        } else if (manifestVersion() === 3) {
             getSessionFromStorage()
         }
     }, [dispatch])
@@ -234,7 +232,7 @@ export const Keyroute = () => {
                                     error
                                 )
                             }
-                        } else {
+                        } else if(manifestVersion() === 3) {
                             try {
                                 await chrome.storage.session.set({
                                     session: encodedSessionData,
