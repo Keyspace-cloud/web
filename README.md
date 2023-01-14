@@ -1,6 +1,9 @@
 # Keyspace Web
-The browser plugin for [Keyspace](https://keyspace.cloud) - A secure self-custodial cryptographic wallet for your digital life. 
+The browser plugin for [Keyspace](https://keyspace.cloud) - A secure self-custodial cryptographic wallet for your digital life. Get it for:
 
+<a href="https://addons.mozilla.org/en-US/firefox/addon/keyspace/" target="_blank" title="Firefox"><img src="https://imgur.com/ihXsdDO.png" width="50" height="50"></a>
+<a href="https://addons.mozilla.org/en-US/firefox/addon/keyspace/" target="_blank" title="Tor Browser"><img src="https://imgur.com/MQYBSrD.png" width="50" height="50"></a>
+---
 <img src="assets/keyroute.PNG" alt="Logins" height="400px"/>
 
 ### Logins
