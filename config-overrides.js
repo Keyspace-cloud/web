@@ -1,8 +1,19 @@
 const webpack = require('webpack')
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-const manifestVersion = process.env.MANIFEST_VERSION == 3 ? 3 : 2
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
-console.log(`Building for manifest version ${manifestVersion}`)
+const manifestVersion = Number(process.env.MANIFEST_VERSION)
+const copyPluginOptions = []
+
+if (manifestVersion) {
+    console.log(`Building for manifest version ${manifestVersion}`)
+    if (manifestVersion === 2) {
+        copyPluginOptions.push('./src/manifest.json')
+    } else
+        copyPluginOptions.push({
+            from: './src/manifest.v3.json',
+            to: 'manifest.json',
+        })
+}
 
 module.exports = function override(config, env) {
     config.resolve.fallback = {
@@ -23,13 +34,6 @@ module.exports = function override(config, env) {
         new webpack.optimize.AggressiveSplittingPlugin({
             minSize: 20000,
             maxSize: 50000,
-        }),
-        new CopyWebpackPlugin({
-            patterns: [
-                manifestVersion == 3
-                    ? { from: './src/manifest.v3.json', to: 'manifest.json' }
-                    : './src/manifest.json',
-            ],
         })
     )
     config.module.rules.push({
@@ -38,6 +42,13 @@ module.exports = function override(config, env) {
             fullySpecified: false,
         },
     })
+
+    if (copyPluginOptions.length)
+        config.plugins.push(
+            new CopyWebpackPlugin({
+                patterns: copyPluginOptions,
+            })
+        )
 
     return config
 }

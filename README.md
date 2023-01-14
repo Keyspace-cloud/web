@@ -31,9 +31,11 @@ The browser plugin for [Keyspace](https://keyspace.cloud) - A secure self-custod
 `yarn`
 
 ### Build
-Build for manifest version 2 with `yarn build`
+Build webapp with `yarn build`
 
-Build for manifest version 3 with `yarn v3build`
+Build for manifest version 2 with `yarn build:mv2`
+
+Build for manifest version 3 with `yarn build:mv3`
 
 ### Rebuild icon manifest
 
