@@ -95,10 +95,11 @@ export const decryptLogin = async (
             encryptedLogin.name,
             decryptionKey
         )
-    decryptedLogin.loginData.username = await decryptString(
-        encryptedLogin.loginData.username,
-        decryptionKey
-    )
+    if (encryptedLogin.loginData.username)
+        decryptedLogin.loginData.username = await decryptString(
+            encryptedLogin.loginData.username,
+            decryptionKey
+        )
 
     decryptedLogin.loginData.email = await decryptString(
         encryptedLogin.loginData.email,
@@ -272,10 +273,11 @@ export const encryptLogin = async (
     if (loginItem.name)
         encryptedLogin.name = await encryptString(loginItem.name, encryptionKey)
 
-    encryptedLogin.loginData.username = await encryptString(
-        loginItem.loginData.username,
-        encryptionKey
-    )
+    if (loginItem.loginData.username)
+        encryptedLogin.loginData.username = await encryptString(
+            loginItem.loginData.username,
+            encryptionKey
+        )
 
     encryptedLogin.loginData.email = await encryptString(
         loginItem.loginData.email,
@@ -658,10 +660,10 @@ export const getSiteNameFromUrl = (rawUrl: string) => {
 
 /**
  * Does a "fuzzy" search for a search query within a string. Converts the query into a regex to conduct the search
- * 
+ *
  * @param {string} pattern - The search query pattern to search the target string for
  * @param {string} target - The target text within which to search
- * @returns 
+ * @returns
  */
 export const fuzzyMatch = (pattern: string, target: string) => {
     pattern = '.*' + pattern.split('').join('.*') + '.*'

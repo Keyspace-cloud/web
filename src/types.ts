@@ -90,7 +90,7 @@ export interface VaultItem {
 export interface LoginItem extends VaultItem {
     loginData: {
         email: string,
-        username: string,
+        username: string | null,
         password: string,
         passwordHistory: Array<ArchivedPassword>
         totp: TOTP | null

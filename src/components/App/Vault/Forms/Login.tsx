@@ -85,7 +85,7 @@ export const LoginForm = (props: LoginFormProps) => {
     const toast = useToast()
     const [title, setTitle] = useState<string>('')
     const [email, setEmail] = useState<string>('')
-    const [username, setUsername] = useState<string>('')
+    const [username, setUsername] = useState<string | null>('')
     const [emailAsUsername, setEmailAsUsername] = useState<boolean>(true)
     const [password, setPassword] = useState<string>('')
     const [pwHistory, setPwHistory] = useState<Array<ArchivedPassword>>([])
@@ -133,6 +133,7 @@ export const LoginForm = (props: LoginFormProps) => {
             setCustomFields(itemInEdit.customFields)
             setSiteUrls(itemInEdit.loginData.siteUrls)
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [itemInEdit])
 
     /**
@@ -153,6 +154,7 @@ export const LoginForm = (props: LoginFormProps) => {
         }, 1000)
 
         return () => clearInterval(interval)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [totp?.secret, totpTimer])
 
     useEffect(() => {
@@ -198,7 +200,7 @@ export const LoginForm = (props: LoginFormProps) => {
      */
     useEffect(() => {
         if (password)
-            setPwStrength(passwordStrength(password, [username, email]))
+            setPwStrength(passwordStrength(password, [username || '', email]))
     }, [password, email, username])
 
     /**
@@ -491,7 +493,7 @@ export const LoginForm = (props: LoginFormProps) => {
                                                 fontSize={'xs'}
                                                 htmlFor="username"
                                                 textColor={
-                                                    username && 'GrayText'
+                                                    username?.length ? 'GrayText' : undefined
                                                 }
                                             >
                                                 Username
@@ -500,7 +502,7 @@ export const LoginForm = (props: LoginFormProps) => {
                                             <Input
                                                 id="username"
                                                 variant="filled"
-                                                value={username}
+                                                value={username?.length}
                                                 onChange={(event) =>
                                                     setUsername(
                                                         event.target.value

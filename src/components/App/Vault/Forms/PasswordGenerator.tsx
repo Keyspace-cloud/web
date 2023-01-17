@@ -147,15 +147,6 @@ export const PasswordGenerator = (props: PasswordGeneratorProps) => {
     }
 
     /**
-     * Re-generates the password when the password options are updated
-     *
-     * @returns {void}
-     */
-    useEffect(() => {
-        setCandidatePw(randomPassword(pwOptions))
-    }, [pwOptions])
-
-    /**
      * Generates a random password based on the current `pwOptions`
      *
      * @returns {void}
@@ -184,7 +175,7 @@ export const PasswordGenerator = (props: PasswordGeneratorProps) => {
         setCandidatePw(
             props.initialValue ? props.initialValue : randomPassword(pwOptions)
         )
-    }, [props.initialValue])
+    }, [props.initialValue, pwOptions])
 
     useEffect(() => {
         if (hasCopied)
@@ -198,6 +189,7 @@ export const PasswordGenerator = (props: PasswordGeneratorProps) => {
                     backdropFilter: 'blur(10px)',
                 },
             })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [hasCopied])
 
     return (
