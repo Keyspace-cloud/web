@@ -615,7 +615,7 @@ export const detectCardType = (cardNumber: string) => {
  */
 export const formattedCardNumber = (value: string) => {
     let v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '')
-    let matches = v.match(/\d{4,16}/g)
+    let matches = v.match(/\d{4,19}/g)
     let match = (matches && matches[0]) || ''
     let parts = []
 
