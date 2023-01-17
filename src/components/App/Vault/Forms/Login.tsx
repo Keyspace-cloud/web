@@ -502,7 +502,7 @@ export const LoginForm = (props: LoginFormProps) => {
                                             <Input
                                                 id="username"
                                                 variant="filled"
-                                                value={username?.length}
+                                                value={username || undefined }
                                                 onChange={(event) =>
                                                     setUsername(
                                                         event.target.value
