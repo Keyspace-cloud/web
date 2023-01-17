@@ -68,7 +68,7 @@ export const NotesView = () => {
                         <NoteCard
                             note={note as SecureNote}
                             tags={tags as Array<Tag>}
-                            key={n}
+                            key={note.id}
                         />
                     ))}
                 </SimpleGrid>

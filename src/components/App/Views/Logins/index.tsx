@@ -71,7 +71,7 @@ export const LoginsView = () => {
                         .sort((a, b) => b.dateCreated - a.dateCreated)
                         .map((login, n) => (
                             <LoginCard
-                                key={n}
+                                key={login.id}
                                 login={login as LoginItem}
                                 tags={tags as Array<Tag>}
                             />

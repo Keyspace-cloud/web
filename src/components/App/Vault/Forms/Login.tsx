@@ -85,7 +85,7 @@ export const LoginForm = (props: LoginFormProps) => {
     const toast = useToast()
     const [title, setTitle] = useState<string>('')
     const [email, setEmail] = useState<string>('')
-    const [username, setUsername] = useState<string>('')
+    const [username, setUsername] = useState<string | null>('')
     const [emailAsUsername, setEmailAsUsername] = useState<boolean>(true)
     const [password, setPassword] = useState<string>('')
     const [pwHistory, setPwHistory] = useState<Array<ArchivedPassword>>([])
@@ -133,6 +133,7 @@ export const LoginForm = (props: LoginFormProps) => {
             setCustomFields(itemInEdit.customFields)
             setSiteUrls(itemInEdit.loginData.siteUrls)
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [itemInEdit])
 
     /**
@@ -153,6 +154,7 @@ export const LoginForm = (props: LoginFormProps) => {
         }, 1000)
 
         return () => clearInterval(interval)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [totp?.secret, totpTimer])
 
     useEffect(() => {
@@ -169,6 +171,7 @@ export const LoginForm = (props: LoginFormProps) => {
      */
     const pwStrengthColor = (): string => {
         let color = 'red'
+        if (!password) return color
         switch (pwStrength.score) {
             case 1:
                 color = 'orange'
@@ -197,7 +200,7 @@ export const LoginForm = (props: LoginFormProps) => {
      */
     useEffect(() => {
         if (password)
-            setPwStrength(passwordStrength(password, [username, email]))
+            setPwStrength(passwordStrength(password, [username || '', email]))
     }, [password, email, username])
 
     /**
@@ -207,22 +210,24 @@ export const LoginForm = (props: LoginFormProps) => {
      */
     useEffect(() => {
         let hint = ''
-        if (pwStrength.feedback?.warning) {
-            hint = `${pwStrength.feedback.warning}. `
-            pwStrength.feedback.suggestions.forEach((suggestion) => {
-                hint = hint.concat(`${suggestion}`)
-            })
+        if (password) {
+            if (pwStrength.feedback?.warning) {
+                hint = `${pwStrength.feedback.warning}. `
+                pwStrength.feedback.suggestions.forEach((suggestion) => {
+                    hint = hint.concat(`${suggestion}`)
+                })
+            }
+            hint = hint.concat(
+                `${
+                    !hint || hint.slice(-1) === '.' ? '' : '.'
+                } This password is crackable in ${
+                    pwStrength.crack_times_display
+                        ?.offline_slow_hashing_1e4_per_second
+                }. `
+            )
         }
-        hint = hint.concat(
-            `${
-                !hint || hint.slice(-1) === '.' ? '' : '.'
-            } This password is crackable in ${
-                pwStrength.crack_times_display
-                    ?.offline_slow_hashing_1e4_per_second
-            }. `
-        )
         setPwHint(hint)
-    }, [pwStrength])
+    }, [pwStrength, password])
 
     /**
      * Toggles the state for revealing the password field
@@ -488,7 +493,7 @@ export const LoginForm = (props: LoginFormProps) => {
                                                 fontSize={'xs'}
                                                 htmlFor="username"
                                                 textColor={
-                                                    username && 'GrayText'
+                                                    username?.length ? 'GrayText' : undefined
                                                 }
                                             >
                                                 Username
@@ -497,7 +502,7 @@ export const LoginForm = (props: LoginFormProps) => {
                                             <Input
                                                 id="username"
                                                 variant="filled"
-                                                value={username}
+                                                value={username?.length}
                                                 onChange={(event) =>
                                                     setUsername(
                                                         event.target.value
@@ -531,13 +536,11 @@ export const LoginForm = (props: LoginFormProps) => {
                                         Password
                                     </FormLabel>
                                     <Flex gap={1} align={'center'}>
+                                        <PasswordGenerator
+                                            initialValue={password}
+                                            onSave={setPassword}
+                                        />
                                         <InputGroup size="md">
-                                            <InputLeftElement width="2.5rem">
-                                                <PasswordGenerator
-                                                    initialValue={password}
-                                                    onSave={setPassword}
-                                                />
-                                            </InputLeftElement>
                                             <Input
                                                 id="password"
                                                 value={password}
@@ -548,7 +551,6 @@ export const LoginForm = (props: LoginFormProps) => {
                                                     )
                                                 }
                                                 pr="4.5rem"
-                                                pl="3rem"
                                                 className={
                                                     showPassword ? '' : 'hidden'
                                                 }

@@ -97,7 +97,6 @@ export const PasswordGenerator = (props: PasswordGeneratorProps) => {
                                 htmlFor={option.name}
                                 mb="0"
                                 fontSize="sm"
-                                textColor={'GrayText'}
                             >
                                 {option.label}
                             </FormLabel>
@@ -148,15 +147,6 @@ export const PasswordGenerator = (props: PasswordGeneratorProps) => {
     }
 
     /**
-     * Re-generates the password when the password options are updated
-     *
-     * @returns {void}
-     */
-    useEffect(() => {
-        setCandidatePw(randomPassword(pwOptions))
-    }, [pwOptions])
-
-    /**
      * Generates a random password based on the current `pwOptions`
      *
      * @returns {void}
@@ -185,7 +175,7 @@ export const PasswordGenerator = (props: PasswordGeneratorProps) => {
         setCandidatePw(
             props.initialValue ? props.initialValue : randomPassword(pwOptions)
         )
-    }, [props.initialValue])
+    }, [props.initialValue, pwOptions])
 
     useEffect(() => {
         if (hasCopied)
@@ -199,6 +189,7 @@ export const PasswordGenerator = (props: PasswordGeneratorProps) => {
                     backdropFilter: 'blur(10px)',
                 },
             })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [hasCopied])
 
     return (
@@ -213,17 +204,18 @@ export const PasswordGenerator = (props: PasswordGeneratorProps) => {
                 <IconButton
                     onClick={open}
                     icon={<Icon as={FiSettings} />}
-                    aria-label={'Password generator'}
-                    h="1.75rem"
+                    aria-label={'Open password generator'}
+                    title={'Open password generator'}
+                    h={10}
                     size="sm"
                 />
             </PopoverTrigger>
             <PopoverContent
-                color="white"
                 bgColor={useColorModeValue(
-                    'background.light',
-                    'background.dark'
+                    'gray.50',
+                    'gray.800'
                 )}
+                boxShadow={'2xl'}
             >
                 <PopoverHeader
                     pt={4}
@@ -252,7 +244,7 @@ export const PasswordGenerator = (props: PasswordGeneratorProps) => {
                         </Box>
                         {pwOptionToggles()}
                         <Flex w="full" justifyContent={'space-between'} gap={4}>
-                            <Text fontSize="sm" textColor={'GrayText'}>
+                            <Text fontSize="sm" >
                                 Length
                             </Text>
                             <Slider

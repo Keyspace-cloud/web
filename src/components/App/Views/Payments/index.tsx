@@ -50,7 +50,7 @@ export const CardsView = () => {
                         .sort((a, b) => b.dateCreated - a.dateCreated)
                         .map((card, n) => (
                             <PaymentCardTile
-                                key={n}
+                                key={card.id}
                                 paymentCard={card as PaymentCard}
                                 tags={tags as Array<Tag>}
                             />
