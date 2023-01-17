@@ -97,7 +97,6 @@ export const PasswordGenerator = (props: PasswordGeneratorProps) => {
                                 htmlFor={option.name}
                                 mb="0"
                                 fontSize="sm"
-                                textColor={'GrayText'}
                             >
                                 {option.label}
                             </FormLabel>
@@ -213,17 +212,18 @@ export const PasswordGenerator = (props: PasswordGeneratorProps) => {
                 <IconButton
                     onClick={open}
                     icon={<Icon as={FiSettings} />}
-                    aria-label={'Password generator'}
-                    h="1.75rem"
+                    aria-label={'Open password generator'}
+                    title={'Open password generator'}
+                    h={10}
                     size="sm"
                 />
             </PopoverTrigger>
             <PopoverContent
-                color="white"
                 bgColor={useColorModeValue(
-                    'background.light',
-                    'background.dark'
+                    'gray.50',
+                    'gray.800'
                 )}
+                boxShadow={'2xl'}
             >
                 <PopoverHeader
                     pt={4}
@@ -252,7 +252,7 @@ export const PasswordGenerator = (props: PasswordGeneratorProps) => {
                         </Box>
                         {pwOptionToggles()}
                         <Flex w="full" justifyContent={'space-between'} gap={4}>
-                            <Text fontSize="sm" textColor={'GrayText'}>
+                            <Text fontSize="sm" >
                                 Length
                             </Text>
                             <Slider
