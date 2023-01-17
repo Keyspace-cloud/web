@@ -1,6 +1,6 @@
 {
   "name": "keyspace-plugin",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": false,
   "dependencies": {
     "@chakra-ui/icons": "^2.0.0",
