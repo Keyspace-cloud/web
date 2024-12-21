@@ -1,8 +1,9 @@
-import { As, Button, ButtonProps, HStack, Icon, Text } from '@chakra-ui/react'
-import * as React from 'react'
+import { Button, ButtonProps, HStack, Icon, Text } from '@chakra-ui/react'
+import { IconType } from 'react-icons/lib';
+
 
 interface NavButtonProps extends ButtonProps {
-  icon: As
+  icon: IconType
   label: string,
 }
 
