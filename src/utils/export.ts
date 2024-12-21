@@ -37,19 +37,29 @@ export function convertToBitwarden(serverItems: ServerVaultItem[]): { items: any
 
         switch (data.type) {
             case 'login':
-                const loginData = (data as LoginItem).loginData;
+                const loginData = (data as LoginItem);
                 baseItem.type = 1; // Cipher type for Login
                 baseItem.login = {
-                    username: loginData.username || undefined,
-                    password: loginData.password,
-                    uris: loginData.siteUrls?.map(url => ({ uri: url })) || undefined,
+                    username: loginData.loginData.username || undefined,
+                    password: loginData.loginData.password,
+                    uris: loginData.loginData.siteUrls?.map(url => ({ uri: url })) || undefined,
+                    totp: loginData.loginData.totp?.secret,
                 };
+                baseItem.passwordHistory = loginData.loginData.passwordHistory.map(oldPassword => {
+                    return { 
+                        password: oldPassword.password.length > 0 ? oldPassword.password : ' ', 
+                        lastUsedDate: new Date(oldPassword.created * 1000).toISOString()
+                    }
+                });
+                baseItem.favorite = loginData.favorite;
+                baseItem.notes = loginData.notes.slice(0, STRING_SIZE_LIMIT);
                 break;
 
             case 'note':
                 baseItem.name = 'Keyspace note'
                 baseItem.type = 2; // Cipher type for Secure Note
                 baseItem.secureNote = {};
+                baseItem.favorite = (data as SecureNote).favorite;
                 baseItem.notes = (data as SecureNote).notes.slice(0, STRING_SIZE_LIMIT); 
                 break;
 
@@ -64,6 +74,7 @@ export function convertToBitwarden(serverItems: ServerVaultItem[]): { items: any
                     expYear: `20${expYear}`, // Assuming YY format, prepend '20'
                     code: cardData.securityCode,
                 };
+                baseItem.favorite = cardData.favorite;
                 baseItem.notes = cardData.notes.slice(0, STRING_SIZE_LIMIT);
                 break;
 
