@@ -9,12 +9,27 @@ import {
     Td,
     Tr,
     useColorModeValue,
+    Button,
 } from '@chakra-ui/react'
 import { useAppSelector } from '../../../../store/hooks'
 import { buf2hex } from '../../../../utils/crypto'
+import { useGetVaultQuery } from '../../../../services/api'
+import { convertToBitwarden, downloadFile } from '../../../../utils/export'
 
 export const Profile = () => {
     const authStore = useAppSelector((state) => state.session.session)
+
+    const { data, isLoading } = useGetVaultQuery(
+        authStore.keyring.symmetricKey,
+        {
+            pollingInterval: 5000,
+        }
+    )
+
+    const handleExportToBitwarden = () => {
+        const bitwardenItems = convertToBitwarden(data?.data!);
+        downloadFile(bitwardenItems, 'keyspace-export--bitwarden-format.json', 'application/json');
+    }
 
     const { email, keyring } = authStore
 
@@ -48,6 +63,12 @@ export const Profile = () => {
                                     Public key
                                 </Td>
                                 <Td>{buf2hex(keyring.publicKey)}</Td>
+                            </Tr>
+                            <Tr>
+                                <Td fontWeight={'medium'} textColor="GrayText">
+                                    Export Vault data
+                                </Td>
+                                <Td><Button onClick={handleExportToBitwarden}>Export for Bitwarden</Button></Td>
                             </Tr>
                         </Tbody>
                     </Table>
