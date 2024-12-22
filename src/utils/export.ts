@@ -52,11 +52,12 @@ export function convertToBitwarden(serverItems: ServerVaultItem[]): { items: any
                     }
                 });
                 baseItem.favorite = loginData.favorite;
-                baseItem.notes = loginData.notes.slice(0, STRING_SIZE_LIMIT);
+                baseItem.notes = loginData.loginData.totp?.backupCodes ? `TOTP Backup codes:\n${loginData.loginData.totp?.backupCodes}\n\n` : ''
+                baseItem.notes += loginData.notes.slice(0, STRING_SIZE_LIMIT);
                 break;
 
             case 'note':
-                baseItem.name = 'Keyspace note'
+                baseItem.name = (data as SecureNote).notes.slice(0, 20)
                 baseItem.type = 2; // Cipher type for Secure Note
                 baseItem.secureNote = {};
                 baseItem.favorite = (data as SecureNote).favorite;
